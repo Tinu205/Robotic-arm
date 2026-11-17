@@ -1,0 +1,3 @@
+urdf/ contains xacro and urdf files 
+launch/ for the launch file 
+rviz/ for rviz confiugrations 
