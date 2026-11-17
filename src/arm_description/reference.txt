@@ -1,3 +1,6 @@
 urdf/ contains xacro and urdf files 
 launch/ for the launch file 
 rviz/ for rviz confiugrations 
+
+
+according to rhs thumb facing upwards thumb is z, index is x and middle is y 
