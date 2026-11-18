@@ -4,3 +4,9 @@ rviz/ for rviz confiugrations
 
 
 according to rhs thumb facing upwards thumb is z, index is x and middle is y 
+
+launch_sim.launch.py launches the simulation gazebo and rviz 
+rjr launches robot state, joint state publisher, and rviz 
+rs_publishers just robot state and joint state publisher 
+
+
