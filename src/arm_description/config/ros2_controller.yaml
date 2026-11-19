@@ -17,7 +17,6 @@ joint_trajectory_controller:
       - elbow_joint 
     command_interfaces:
       - velocity
-      - position 
 
     state_interfaces:
       - velocity 
