@@ -7,7 +7,7 @@
 
     <joint name="base_yaw_joint">
 
-      <command_interface name="velocity"/>
+      <command_interface name="position"/>
 
       <state_interface name="position"/>
       <state_interface name="velocity"/>
@@ -16,7 +16,7 @@
 
     <joint name="shoulder_joint">
 
-      <command_interface name="velocity"/>
+      <command_interface name="position"/>
 
       <state_interface name="position"/>
       <state_interface name="velocity"/>
@@ -25,7 +25,7 @@
 
     <joint name="elbow_joint">
 
-      <command_interface name="velocity"/>
+      <command_interface name="position"/>
 
       <state_interface name="position"/>
       <state_interface name="velocity"/>
