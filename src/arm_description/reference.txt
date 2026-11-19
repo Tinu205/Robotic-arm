@@ -7,6 +7,7 @@ according to rhs thumb facing upwards thumb is z, index is x and middle is y
 
 launch_sim.launch.py launches the simulation gazebo and rviz 
 rjr launches robot state, joint state publisher, and rviz 
-rs_publishers just robot state and joint state publisher 
+rs_pub launches robot state publisher and rviz (no joint state gui) - used by the sim launch 
 
+removed joint state from publishing in simulation launch cause controller will take care of them 
 
