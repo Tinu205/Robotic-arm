@@ -11,3 +11,9 @@ rs_pub launches robot state publisher and rviz (no joint state gui) - used by th
 
 removed joint state from publishing in simulation launch cause controller will take care of them 
 
+ros2 action send_goal /joint_trajectory_controller/follow_joint_trajectory \
+  control_msgs/action/FollowJointTrajectory \
+  "{trajectory: {joint_names: [base_yaw_joint, shoulder_joint, elbow_joint],
+    points: [{positions: [0.5, 0.5, 0.8], time_from_start: {sec: 3}}]}}"
+
+

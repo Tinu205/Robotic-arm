@@ -1,10 +1,16 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
   <gazebo>
     <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin"
             filename="gz_ros2_control-system">
-      <parameters>$(find arm_description)/config/ros2_controller.yaml</parameters>
+      <xacro:if value="$(arg effort_mode)">
+        <parameters>$(find arm_description)/config/ros2_controller_effort.yaml</parameters>
+      </xacro:if>
+      <xacro:unless value="$(arg effort_mode)">
+        <parameters>$(find arm_description)/config/ros2_controller.yaml</parameters>
+      </xacro:unless>
     </plugin>
   </gazebo>
-</robot>
 
+</robot>

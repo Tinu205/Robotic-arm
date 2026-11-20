@@ -1,38 +1,59 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <ros2_control name="GazeboSystem" type="system">
-    <hardware>
-      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-    </hardware>
 
-    <joint name="base_yaw_joint">
+  <!-- effort_mode (declared in robot.urdf.xacro) picks the command interface.
+       The matching controller yaml is picked in gazebo_control.xacro. -->
 
-      <command_interface name="position"/>
+  <xacro:if value="$(arg effort_mode)">
+    <ros2_control name="GazeboSystem" type="system">
+      <hardware>
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      </hardware>
 
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
+      <joint name="base_yaw_joint">
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
 
-    </joint>
+      <joint name="shoulder_joint">
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
 
-    <joint name="shoulder_joint">
+      <joint name="elbow_joint">
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+    </ros2_control>
+  </xacro:if>
 
-      <command_interface name="position"/>
+  <xacro:unless value="$(arg effort_mode)">
+    <ros2_control name="GazeboSystem" type="system">
+      <hardware>
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      </hardware>
 
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
+      <joint name="base_yaw_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
 
-    </joint>
+      <joint name="shoulder_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
 
-    <joint name="elbow_joint">
+      <joint name="elbow_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+    </ros2_control>
+  </xacro:unless>
 
-      <command_interface name="position"/>
-
-      <state_interface name="position"/>
-      <state_interface name="velocity"/>
-
-    </joint>
-
-
-
-  </ros2_control>
 </robot>

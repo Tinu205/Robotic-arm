@@ -1,22 +1,31 @@
-import os 
+import os
 
-from ament_index_python.packages import get_package_share_directory 
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, Command
 from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
-import xacro 
 
 def generate_launch_description():
-    use_sim_time=LaunchConfiguration('use_sim_time')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    effort_mode = LaunchConfiguration('effort_mode')
+
     pkg_path = os.path.join(get_package_share_directory('arm_description'))
     xacro_file = os.path.join(pkg_path,'urdf','robot.urdf.xacro')
-    robot_description_config = xacro.process_file(xacro_file)
+
+    # xacro runs when the launch actually starts (Command substitution), so it can
+    # see launch argument values. Calling xacro.process_file() directly here would
+    # run before arguments are resolved and always use the xacro defaults.
+    robot_description = ParameterValue(
+        Command(['xacro ', xacro_file, ' effort_mode:=', effort_mode]),
+        value_type=str
+    )
 
     rviz_config_path = os.path.join(get_package_share_directory('arm_description'),'rviz','config.rviz')
 
-    params = {'robot_description':robot_description_config.toxml(),'use_sim_time':use_sim_time}
+    params = {'robot_description':robot_description,'use_sim_time':use_sim_time}
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -42,6 +51,11 @@ def generate_launch_description():
             'use_sim_time',
             default_value='false',
             description='Use sim time if true'),
+
+        DeclareLaunchArgument(
+            'effort_mode',
+            default_value='false',
+            description='true: effort command interfaces, false: position'),
 
         robot_state_publisher_node,
         rviz_node

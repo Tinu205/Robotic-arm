@@ -13,10 +13,19 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     package_name = 'arm_description'
+
+    effort_mode = LaunchConfiguration('effort_mode')
+
+    effort_mode_arg = DeclareLaunchArgument(
+        'effort_mode',
+        default_value='false',
+        description='true: effort command interfaces, false: position'
+    )
+
     rs_pub = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             get_package_share_directory(package_name),'launch','rs_pub.launch.py'
-        )]),launch_arguments={'use_sim_time':'true'}.items()
+        )]),launch_arguments={'use_sim_time':'true','effort_mode':effort_mode}.items()
     )
 
     world = LaunchConfiguration('world')
@@ -75,6 +84,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         world_arg,
+        effort_mode_arg,
         rs_pub,
         gazebo,
         clock_bridge,
