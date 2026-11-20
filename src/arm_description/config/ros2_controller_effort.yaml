@@ -1,6 +1,8 @@
 controller_manager:
   ros__parameters:
-    update_rate: 100
+    # 1000 Hz (= Gazebo's 1 ms physics step). At 100 Hz the D gains needed for the
+    # shoulder make the light base-yaw joint unstable (see gains comments below).
+    update_rate: 1000
     use_sim_time: true 
 
     joint_state_broadcaster:
@@ -23,8 +25,17 @@ joint_trajectory_controller:
       - effort
 
     state_interfaces:
-      - velocity 
-      - position 
+      - velocity
+      - position
+
+
+    gains:
+      
+      base_yaw_joint: {p: 50.0, i: 0.0, d: 5.0}
+     
+      shoulder_joint: {p: 500.0, i: 100.0, d: 8.0}
+     
+      elbow_joint: {p: 100.0, i: 0.0, d: 5.0}
 
 effort_controller:
   ros__parameters:
